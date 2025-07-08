@@ -235,6 +235,39 @@
         </form>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js">
+  const form = document.getElementById('registration-form');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: document.getElementById('name').value,
+      number: document.getElementById('number').value,
+      email: document.getElementById('email').value,
+      college: document.getElementById('college').value,
+      screenshot: document.getElementById('screenshot').value
+    };
+
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxAOjsnqVdrUbgEaNpgn86QxKncwID6_2NvJVtU4lZ8AWF88RLzE-A2A1xuoTPk0OlL/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const result = await response.json();
+      if (result.status === 'success') {
+        alert('Registration successful!');
+        form.reset();
+      } else {
+        alert('Error saving data.');
+      }
+    } catch (error) {
+      console.error('Submission failed', error);
+      alert('Something went wrong!');
+    }
+  });
+</script>
 </body>
 </html>
